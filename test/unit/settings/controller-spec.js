@@ -210,4 +210,33 @@ describe( "Google Spreadsheet Settings", function() {
     } );
 
   } );
+
+  describe( "setWorkSheets", function() {
+
+    it( "should select the first worksheet if there is not a previous sheetName selected", function() {
+      var valid = 0;
+      scope.settingsForm = {
+        $setValidity: function(key, value) {
+          valid = value ? 1 : 2;
+        }
+      };
+
+      scope.setWorkSheets([
+        { properties: { title: "First"  } },
+        { properties: { title: "Second" } }
+      ]);
+
+      expect( scope.public ).to.be.true;
+      expect( scope.sheets ).to.deep.equal([
+        { label: "First" , value: "First"  },
+        { label: "Second", value: "Second" }
+      ]);
+      expect(scope.currentSheet).to.deep.equal(
+        { label: "First", value: "First" }
+      );
+      expect(valid).to.equal(1);
+
+    } );
+  } );
+
 } );

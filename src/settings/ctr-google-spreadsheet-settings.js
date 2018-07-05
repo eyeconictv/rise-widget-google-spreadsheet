@@ -25,7 +25,7 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
         }
       }
 
-      function setWorkSheets(sheets) {
+      $scope.setWorkSheets = function(sheets) {
         $scope.public = true;
         $scope.sheets = sheets.map( function( sheet ) {
           return {
@@ -41,11 +41,13 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
         } else {
           $scope.currentSheet = $scope.sheets[ 0 ];
         }
+
+        $scope.settingsForm.$setValidity( "sheet", !!$scope.currentSheet );
       }
 
       function getWorkSheets( fileId ) {
         googleSheet.getWorkSheets( fileId )
-          .then( setWorkSheets )
+          .then( $scope.setWorkSheets )
           .then( null, function() {
             $scope.public = false;
 
