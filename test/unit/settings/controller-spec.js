@@ -214,12 +214,7 @@ describe( "Google Spreadsheet Settings", function() {
   describe( "setWorkSheets", function() {
 
     it( "should select the first worksheet if there is not a previous sheetName selected", function() {
-      var valid = 0;
-      scope.settingsForm = {
-        $setValidity: function(key, value) {
-          valid = value ? 1 : 2;
-        }
-      };
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
 
       scope.setWorkSheets([
         { properties: { title: "First"  } },
@@ -234,9 +229,10 @@ describe( "Google Spreadsheet Settings", function() {
       expect(scope.currentSheet).to.deep.equal(
         { label: "First", value: "First" }
       );
-      expect(valid).to.equal(1);
 
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", true );
     } );
+
   } );
 
 } );
