@@ -277,4 +277,29 @@ describe( "Google Spreadsheet Settings", function() {
 
   } );
 
+  describe( "setCurrentSheet", function() {
+
+    it( "should pick the current sheet if another was selected", function() {
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
+
+      scope.sheets = [
+        { label: "First", value: "First" },
+        { label: "Second", value: "Second" }
+      ];
+
+      scope.currentSheet  = { label: "First", value: "First" };
+
+      scope.settings.additionalParams.spreadsheet.sheetName = "Second";
+
+      scope.setCurrentSheet();
+
+      expect( scope.currentSheet ).to.deep.equal(
+        { label: "Second", value: "Second" }
+      );
+
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", true );
+    } );
+
+  } );
+
 } );

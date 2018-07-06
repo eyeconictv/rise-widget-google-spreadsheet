@@ -29,7 +29,7 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
         if ( $scope.settings.additionalParams.spreadsheet.sheetName ) {
           $scope.currentSheet = $scope.sheets.filter( function( obj ) {
             return obj.value === $scope.settings.additionalParams.spreadsheet.sheetName;
-          } )[0];
+          } )[ 0 ];
         } else {
           $scope.currentSheet = $scope.sheets[ 0 ];
         }
@@ -101,6 +101,8 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
       $scope.$watch( "currentSheet", function( currentSheet ) {
         if ( currentSheet ) {
           $scope.settings.additionalParams.spreadsheet.sheetName = currentSheet.value;
+
+          $scope.setCurrentSheet();
         }
       } );
 
