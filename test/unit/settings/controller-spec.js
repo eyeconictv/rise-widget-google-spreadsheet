@@ -216,16 +216,16 @@ describe( "Google Spreadsheet Settings", function() {
     it( "should select the first worksheet if there is not a previous sheetName selected", function() {
       var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
 
-      scope.setWorkSheets([
-        { properties: { title: "First"  } },
+      scope.setWorkSheets( [
+        { properties: { title: "First" } },
         { properties: { title: "Second" } }
-      ]);
+      ] );
 
       expect( scope.public ).to.be.true;
-      expect( scope.sheets ).to.deep.equal([
-        { label: "First" , value: "First"  },
+      expect( scope.sheets ).to.deep.equal( [
+        { label: "First" , value: "First" },
         { label: "Second", value: "Second" }
-      ]);
+      ] );
       expect( scope.currentSheet ).to.deep.equal(
         { label: "First", value: "First" }
       );
@@ -238,16 +238,16 @@ describe( "Google Spreadsheet Settings", function() {
 
       scope.settings.additionalParams.spreadsheet.sheetName = "Second";
 
-      scope.setWorkSheets([
-        { properties: { title: "First"  } },
+      scope.setWorkSheets( [
+        { properties: { title: "First" } },
         { properties: { title: "Second" } }
-      ]);
+      ] );
 
       expect( scope.public ).to.be.true;
-      expect( scope.sheets ).to.deep.equal([
-        { label: "First" , value: "First"  },
+      expect( scope.sheets ).to.deep.equal( [
+        { label: "First" , value: "First" },
         { label: "Second", value: "Second" }
-      ]);
+      ] );
       expect( scope.currentSheet ).to.deep.equal(
         { label: "Second", value: "Second" }
       );
@@ -260,16 +260,16 @@ describe( "Google Spreadsheet Settings", function() {
 
       scope.settings.additionalParams.spreadsheet.sheetName = "Other";
 
-      scope.setWorkSheets([
-        { properties: { title: "First"  } },
+      scope.setWorkSheets( [
+        { properties: { title: "First" } },
         { properties: { title: "Second" } }
-      ]);
+      ] );
 
       expect( scope.public ).to.be.true;
-      expect( scope.sheets ).to.deep.equal([
-        { label: "First" , value: "First"  },
+      expect( scope.sheets ).to.deep.equal( [
+        { label: "First" , value: "First" },
         { label: "Second", value: "Second" }
-      ]);
+      ] );
       expect( scope.currentSheet ).to.be.falsey;
 
       expect( setValiditySpy ).to.have.been.calledWith( "sheet", false );
