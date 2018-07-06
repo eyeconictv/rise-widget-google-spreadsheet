@@ -287,7 +287,7 @@ describe( "Google Spreadsheet Settings", function() {
         { label: "Second", value: "Second" }
       ];
 
-      scope.currentSheet  = { label: "First", value: "First" };
+      scope.currentSheet = { label: "First", value: "First" };
 
       scope.settings.additionalParams.spreadsheet.sheetName = "Second";
 
