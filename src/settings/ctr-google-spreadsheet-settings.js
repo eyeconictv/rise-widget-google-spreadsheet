@@ -25,7 +25,7 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
         }
       }
 
-      $scope.setWorkSheets = function(sheets) {
+      $scope.setWorkSheets = function( sheets ) {
         $scope.public = true;
         $scope.sheets = sheets.map( function( sheet ) {
           return {
