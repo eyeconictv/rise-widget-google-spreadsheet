@@ -223,7 +223,7 @@ describe( "Google Spreadsheet Settings", function() {
 
       expect( scope.public ).to.be.true;
       expect( scope.sheets ).to.deep.equal( [
-        { label: "First" , value: "First" },
+        { label: "First", value: "First" },
         { label: "Second", value: "Second" }
       ] );
       expect( scope.currentSheet ).to.deep.equal(
@@ -245,7 +245,7 @@ describe( "Google Spreadsheet Settings", function() {
 
       expect( scope.public ).to.be.true;
       expect( scope.sheets ).to.deep.equal( [
-        { label: "First" , value: "First" },
+        { label: "First", value: "First" },
         { label: "Second", value: "Second" }
       ] );
       expect( scope.currentSheet ).to.deep.equal(
@@ -267,7 +267,7 @@ describe( "Google Spreadsheet Settings", function() {
 
       expect( scope.public ).to.be.true;
       expect( scope.sheets ).to.deep.equal( [
-        { label: "First" , value: "First" },
+        { label: "First", value: "First" },
         { label: "Second", value: "Second" }
       ] );
       expect( scope.currentSheet ).to.be.falsey;
