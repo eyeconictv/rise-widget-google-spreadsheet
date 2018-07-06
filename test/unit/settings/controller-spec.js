@@ -226,7 +226,7 @@ describe( "Google Spreadsheet Settings", function() {
         { label: "First" , value: "First"  },
         { label: "Second", value: "Second" }
       ]);
-      expect(scope.currentSheet).to.deep.equal(
+      expect( scope.currentSheet ).to.deep.equal(
         { label: "First", value: "First" }
       );
 
@@ -248,7 +248,7 @@ describe( "Google Spreadsheet Settings", function() {
         { label: "First" , value: "First"  },
         { label: "Second", value: "Second" }
       ]);
-      expect(scope.currentSheet).to.deep.equal(
+      expect( scope.currentSheet ).to.deep.equal(
         { label: "Second", value: "Second" }
       );
 
@@ -270,7 +270,7 @@ describe( "Google Spreadsheet Settings", function() {
         { label: "First" , value: "First"  },
         { label: "Second", value: "Second" }
       ]);
-      expect(scope.currentSheet).to.be.falsey;
+      expect( scope.currentSheet ).to.be.falsey;
 
       expect( setValiditySpy ).to.have.been.calledWith( "sheet", false );
     } );

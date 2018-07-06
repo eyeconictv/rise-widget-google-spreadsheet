@@ -5,3 +5,7 @@ div.colorpicker .dropdown-menu:before, div.colorpicker .dropdown-menu:after {
 div.colorpicker .close-colorpicker {
   display: none !important;
 }
+
+#sheet {
+  margin-top: 5px;
+}
