@@ -25,6 +25,18 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
         }
       }
 
+      $scope.setCurrentSheet = function() {
+        if ( $scope.settings.additionalParams.spreadsheet.sheetName ) {
+          $scope.currentSheet = $scope.sheets.filter( function( obj ) {
+            return obj.value === $scope.settings.additionalParams.spreadsheet.sheetName;
+          } )[0];
+        } else {
+          $scope.currentSheet = $scope.sheets[ 0 ];
+        }
+
+        $scope.settingsForm.$setValidity( "sheet", !!$scope.currentSheet );
+      }
+
       $scope.setWorkSheets = function( sheets ) {
         $scope.public = true;
         $scope.sheets = sheets.map( function( sheet ) {
@@ -34,15 +46,7 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
           };
         } );
 
-        if ( $scope.settings.additionalParams.spreadsheet.sheetName ) {
-          $scope.currentSheet = $scope.sheets.filter( function( obj ) {
-            return obj.value === $scope.settings.additionalParams.spreadsheet.sheetName;
-          } )[ 0 ];
-        } else {
-          $scope.currentSheet = $scope.sheets[ 0 ];
-        }
-
-        $scope.settingsForm.$setValidity( "sheet", !!$scope.currentSheet );
+        $scope.setCurrentSheet();
       }
 
       function getWorkSheets( fileId ) {
