@@ -233,6 +233,48 @@ describe( "Google Spreadsheet Settings", function() {
       expect( setValiditySpy ).to.have.been.calledWith( "sheet", true );
     } );
 
+    it( "should select the sheet by sheetName", function() {
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
+
+      scope.settings.additionalParams.spreadsheet.sheetName = "Second";
+
+      scope.setWorkSheets([
+        { properties: { title: "First"  } },
+        { properties: { title: "Second" } }
+      ]);
+
+      expect( scope.public ).to.be.true;
+      expect( scope.sheets ).to.deep.equal([
+        { label: "First" , value: "First"  },
+        { label: "Second", value: "Second" }
+      ]);
+      expect(scope.currentSheet).to.deep.equal(
+        { label: "Second", value: "Second" }
+      );
+
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", true );
+    } );
+
+    it( "should set the form as invalid if the current sheetName does not longer exist in the spreadsheet", function() {
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
+
+      scope.settings.additionalParams.spreadsheet.sheetName = "Other";
+
+      scope.setWorkSheets([
+        { properties: { title: "First"  } },
+        { properties: { title: "Second" } }
+      ]);
+
+      expect( scope.public ).to.be.true;
+      expect( scope.sheets ).to.deep.equal([
+        { label: "First" , value: "First"  },
+        { label: "Second", value: "Second" }
+      ]);
+      expect(scope.currentSheet).to.be.falsey;
+
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", false );
+    } );
+
   } );
 
 } );
