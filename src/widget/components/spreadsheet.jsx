@@ -220,7 +220,7 @@ const prefs = new gadgets.Prefs(),
       // Show a different message if there is a 403 or 404
       var statusCode = 0,
         errorMessage = "The request failed with status code: 0",
-        message = "Error when accessing Spreadsheet.",
+        message = "There was an error accessing your spreadsheet data. Please ensure a valid range and Worksheet has been selected.",
         event_details = "spreadsheet not reachable";
 
       if ( e.detail.error && e.detail.error.message ) {

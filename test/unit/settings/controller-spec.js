@@ -210,4 +210,96 @@ describe( "Google Spreadsheet Settings", function() {
     } );
 
   } );
+
+  describe( "setWorkSheets", function() {
+
+    it( "should select the first worksheet if there is not a previous sheetName selected", function() {
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
+
+      scope.setWorkSheets( [
+        { properties: { title: "First" } },
+        { properties: { title: "Second" } }
+      ] );
+
+      expect( scope.public ).to.be.true;
+      expect( scope.sheets ).to.deep.equal( [
+        { label: "First", value: "First" },
+        { label: "Second", value: "Second" }
+      ] );
+      expect( scope.currentSheet ).to.deep.equal(
+        { label: "First", value: "First" }
+      );
+
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", true );
+    } );
+
+    it( "should select the sheet by sheetName", function() {
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
+
+      scope.settings.additionalParams.spreadsheet.sheetName = "Second";
+
+      scope.setWorkSheets( [
+        { properties: { title: "First" } },
+        { properties: { title: "Second" } }
+      ] );
+
+      expect( scope.public ).to.be.true;
+      expect( scope.sheets ).to.deep.equal( [
+        { label: "First", value: "First" },
+        { label: "Second", value: "Second" }
+      ] );
+      expect( scope.currentSheet ).to.deep.equal(
+        { label: "Second", value: "Second" }
+      );
+
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", true );
+    } );
+
+    it( "should set the form as invalid if the current sheetName does not longer exist in the spreadsheet", function() {
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
+
+      scope.settings.additionalParams.spreadsheet.sheetName = "Other";
+
+      scope.setWorkSheets( [
+        { properties: { title: "First" } },
+        { properties: { title: "Second" } }
+      ] );
+
+      expect( scope.public ).to.be.true;
+      expect( scope.sheets ).to.deep.equal( [
+        { label: "First", value: "First" },
+        { label: "Second", value: "Second" }
+      ] );
+      expect( scope.currentSheet ).to.be.falsey;
+
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", false );
+    } );
+
+  } );
+
+  describe( "setCurrentSheet", function() {
+
+    it( "should pick the current sheet if another was selected", function() {
+      var setValiditySpy = sinon.spy( scope.settingsForm, "$setValidity" );
+
+      scope.sheets = [
+        { label: "First", value: "First" },
+        { label: "Second", value: "Second" }
+      ];
+
+      scope.currentSheet = { label: "First", value: "First" };
+
+      scope.settings.additionalParams.spreadsheet.sheetName = "Second";
+
+      scope.setCurrentSheet();
+
+      expect( scope.currentSheet ).to.deep.equal(
+        { label: "Second", value: "Second" }
+      );
+
+      expect( setValiditySpy ).to.have.been.calledWith( "sheet", true );
+    } );
+
+  } );
+
 } );

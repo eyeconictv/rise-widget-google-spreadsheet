@@ -155,7 +155,7 @@ describe( "<Main />", function() {
       };
       sheet.dispatchEvent( event );
 
-      expect( wrapper.find( ".message" ).text() ).to.equal( "Error when accessing Spreadsheet." );
+      expect( wrapper.find( ".message" ).text() ).to.equal( "There was an error accessing your spreadsheet data. Please ensure a valid range and Worksheet has been selected." );
     } );
 
     it( "Should show google sheet api quota exceeded message", function() {

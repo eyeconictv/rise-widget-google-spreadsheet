@@ -25,25 +25,33 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
         }
       }
 
+      $scope.setCurrentSheet = function() {
+        if ( $scope.settings.additionalParams.spreadsheet.sheetName ) {
+          $scope.currentSheet = $scope.sheets.filter( function( obj ) {
+            return obj.value === $scope.settings.additionalParams.spreadsheet.sheetName;
+          } )[ 0 ];
+        } else {
+          $scope.currentSheet = $scope.sheets[ 0 ];
+        }
+
+        $scope.settingsForm.$setValidity( "sheet", !!$scope.currentSheet );
+      }
+
+      $scope.setWorkSheets = function( sheets ) {
+        $scope.public = true;
+        $scope.sheets = sheets.map( function( sheet ) {
+          return {
+            label: sheet.properties.title,
+            value: sheet.properties.title
+          };
+        } );
+
+        $scope.setCurrentSheet();
+      }
+
       function getWorkSheets( fileId ) {
         googleSheet.getWorkSheets( fileId )
-          .then( function( sheets ) {
-            $scope.public = true;
-            $scope.sheets = sheets.map( function( sheet ) {
-              return {
-                label: sheet.properties.title,
-                value: sheet.properties.title
-              };
-            } );
-
-            if ( $scope.settings.additionalParams.spreadsheet.sheetName ) {
-              $scope.currentSheet = $scope.sheets.filter( function( obj ) {
-                return obj.value === $scope.settings.additionalParams.spreadsheet.sheetName;
-              } )[ 0 ];
-            } else {
-              $scope.currentSheet = $scope.sheets[ 0 ];
-            }
-          } )
+          .then( $scope.setWorkSheets )
           .then( null, function() {
             $scope.public = false;
 
@@ -93,6 +101,8 @@ angular.module( "risevision.widget.googleSpreadsheet.settings" )
       $scope.$watch( "currentSheet", function( currentSheet ) {
         if ( currentSheet ) {
           $scope.settings.additionalParams.spreadsheet.sheetName = currentSheet.value;
+
+          $scope.setCurrentSheet();
         }
       } );
 
