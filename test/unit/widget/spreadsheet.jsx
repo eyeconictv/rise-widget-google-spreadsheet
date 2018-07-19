@@ -222,11 +222,6 @@ describe( "<Spreadsheet />", function() {
   describe( "Logging", function() {
     var stub,
       table = "spreadsheet_events",
-      params = {
-        "event": "play",
-        "url": additionalParams.spreadsheet.url,
-        "api_key": "abc123"
-      },
       sheet = document.getElementById( "rise-google-sheet" );
 
     beforeEach( function() {
@@ -235,24 +230,6 @@ describe( "<Spreadsheet />", function() {
 
     afterEach( function() {
       LoggerUtils.logEvent.restore();
-    } );
-
-    it( "should log the play event", function() {
-      var event = document.createEvent( "Event" ),
-        sheet = document.getElementById( "rise-google-sheet" );
-
-      event.initEvent( "rise-google-sheet-response", true, true );
-      event.detail = {
-        results: data
-      };
-
-      sheet.dispatchEvent( event );
-
-      expect( stub.withArgs( table, params ).called ).to.equal( true );
-    } );
-
-    xit( "should log the done event", function() {
-      // TODO: Needs auto-scroll first.
     } );
 
     it( "should log the default error event", function() {
