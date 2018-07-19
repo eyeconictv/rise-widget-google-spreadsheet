@@ -12,6 +12,7 @@ import "../../data/spreadsheet";
 
 describe( "<Spreadsheet />", function() {
   let server,
+    logStub,
     wrapper;
   const data = [ [ "Column 1", "Column 2", "Column 3" ], [ "A2", "B2", "C2" ] ],
     additionalParams = window.gadget.settings.additionalParams,
@@ -34,9 +35,14 @@ describe( "<Spreadsheet />", function() {
   } );
 
   beforeEach( function() {
+    logStub = sinon.stub( LoggerUtils, "logEvent" );
     wrapper = mount( <Spreadsheet initSize={propHandlers.initSize}
                                  showMessage={propHandlers.showMessage}
                                  hideMessage={propHandlers.hideMessage} /> );
+  } );
+
+  afterEach( function() {
+    logStub.restore();
   } );
 
   after( function() {
@@ -220,16 +226,19 @@ describe( "<Spreadsheet />", function() {
   } );
 
   describe( "Logging", function() {
-    var stub,
-      table = "spreadsheet_events",
+    var table = "spreadsheet_events",
       sheet = document.getElementById( "rise-google-sheet" );
 
-    beforeEach( function() {
-      stub = sinon.stub( LoggerUtils, "logEvent" );
-    } );
+    it( "should log the configuration event", function() {
+      var eventDetails = JSON.stringify( additionalParams.spreadsheet ),
+        params = {
+          "event": "configuration",
+          "event_details": eventDetails,
+          "url": additionalParams.spreadsheet.url,
+          "api_key": "abc123"
+        };
 
-    afterEach( function() {
-      LoggerUtils.logEvent.restore();
+      expect( logStub.withArgs( table, params ).called ).to.equal( true );
     } );
 
     it( "should log the default error event", function() {
@@ -251,7 +260,7 @@ describe( "<Spreadsheet />", function() {
       };
       sheet.dispatchEvent( event );
 
-      expect( stub.withArgs( table, params ).called ).to.equal( true );
+      expect( logStub.withArgs( table, params ).called ).to.equal( true );
     } );
 
     it( "should only log the error event when spreadsheet is not reachable for a consecutive time", function() {
@@ -276,11 +285,11 @@ describe( "<Spreadsheet />", function() {
       };
       sheet.dispatchEvent( event );
 
-      expect( stub.withArgs( table, params ).called ).to.equal( false );
+      expect( logStub.withArgs( table, params ).called ).to.equal( false );
 
       sheet.dispatchEvent( event );
 
-      expect( stub.withArgs( table, params ).called ).to.equal( true );
+      expect( logStub.withArgs( table, params ).called ).to.equal( true );
     } );
 
     it( "should log the error event when spreadsheet is not public ", function() {
@@ -305,7 +314,7 @@ describe( "<Spreadsheet />", function() {
       };
       sheet.dispatchEvent( event );
 
-      expect( stub.withArgs( table, params ).called ).to.equal( true );
+      expect( logStub.withArgs( table, params ).called ).to.equal( true );
     } );
 
     it( "should log the error event when spreadsheet is not found ", function() {
@@ -330,7 +339,7 @@ describe( "<Spreadsheet />", function() {
       };
       sheet.dispatchEvent( event );
 
-      expect( stub.withArgs( table, params ).called ).to.equal( true );
+      expect( logStub.withArgs( table, params ).called ).to.equal( true );
     } );
 
     it( "should log the quota error event", function() {
@@ -346,7 +355,7 @@ describe( "<Spreadsheet />", function() {
       event.detail = {};
       sheet.dispatchEvent( event );
 
-      expect( stub.withArgs( table, params ).called ).to.equal( true );
+      expect( logStub.withArgs( table, params ).called ).to.equal( true );
     } );
   } );
 

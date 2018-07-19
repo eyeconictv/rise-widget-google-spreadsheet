@@ -108,6 +108,7 @@ const prefs = new gadgets.Prefs(),
         this.setVerticalAlignment();
 
         this.initRiseGoogleSheet();
+        this.logConfiguration();
       }
 
     },
@@ -168,6 +169,15 @@ const prefs = new gadgets.Prefs(),
       }
 
       Common.addCSSRules( rules );
+    },
+
+    logConfiguration: function() {
+      this.logEvent( {
+        event: "configuration",
+        event_details: JSON.stringify( params.spreadsheet ),
+        url: params.spreadsheet.url,
+        api_key: ( params.spreadsheet.apiKey ) ? params.spreadsheet.apiKey : this.API_KEY_DEFAULT
+      } );
     },
 
     initRiseGoogleSheet: function() {
