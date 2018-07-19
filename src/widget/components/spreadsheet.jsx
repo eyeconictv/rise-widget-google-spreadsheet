@@ -22,7 +22,6 @@ const prefs = new gadgets.Prefs(),
     errorFlag: false,
     errorTimer: null,
     pudTimer: null,
-    errorLog: null,
     totalCols: 0,
     apiErrorFlag: false,
 
@@ -278,7 +277,7 @@ const prefs = new gadgets.Prefs(),
         "url": params.spreadsheet.url,
         "request_url": ( e.detail.request ) ? e.detail.request.url : "",
         "api_key": ( params.spreadsheet.apiKey ) ? params.spreadsheet.apiKey : this.API_KEY_DEFAULT
-      }, true );
+      } );
     },
 
     onGoogleSheetQuota: function( e ) {
@@ -288,7 +287,7 @@ const prefs = new gadgets.Prefs(),
         "event_details": "api quota exceeded",
         "url": params.spreadsheet.url,
         "api_key": ( params.spreadsheet.apiKey ) ? params.spreadsheet.apiKey : this.API_KEY_DEFAULT
-      }, true );
+      } );
 
       if ( e.detail && e.detail.results ) {
         // cached data provided, process as normal response
@@ -355,10 +354,6 @@ const prefs = new gadgets.Prefs(),
 
     done: function() {
       gadgets.rpc.call( "", "rsevent_done", null, prefs.getString( "id" ) );
-
-      if ( this.errorLog !== null ) {
-        this.logEvent( this.errorLog, true );
-      }
     },
 
     play: function() {
@@ -411,10 +406,7 @@ const prefs = new gadgets.Prefs(),
       }, 5000 );
     },
 
-    logEvent: function( params, isError ) {
-      if ( isError ) {
-        this.errorLog = params;
-      }
+    logEvent: function( params ) {
       Logger.logEvent( this.getTableName(), params );
     },
 
