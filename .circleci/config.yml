@@ -25,8 +25,6 @@ jobs:
   setup:
     working_directory: ~/Rise-Vision/widget-google-spreadsheet
     shell: /bin/bash --login
-    environment:
-      awscli: /home/ubuntu/aws/bin/aws
     docker: *BUILDIMAGE
     steps:
       - checkout
@@ -162,7 +160,7 @@ jobs:
             echo Deploying version $(grep version package.json |grep -o '[0-9.]*') to $BUCKET_NAME-test/stage-0-dev
             STAGE_ENV='stage-0-dev'
           fi
-          gsutil rsync -d -r test_dist gs://rise-content/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
+          gsutil rsync -d -r test_dist gs://widgets.risevision.com/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
 
   stage-aws-prod:
     shell: /bin/bash --login
@@ -205,9 +203,9 @@ jobs:
             echo Deploying version $(grep version package.json |grep -o '[0-9.]*') to $BUCKET_NAME-test/stage-0
             STAGE_ENV='stage-0'
           fi
-          gsutil rsync -d -r dist gs://rise-content/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
-          gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" gs://rise-content/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
-          gsutil acl -r ch -u AllUsers:R gs://rise-content/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
+          gsutil rsync -d -r dist gs://widgets.risevision.com/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
+          gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" gs://widgets.risevision.com/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
+          gsutil acl -r ch -u AllUsers:R gs://widgets.risevision.com/$BUCKET_NAME-test/$STAGE_ENV/$(grep version package.json |grep -o '[0-9.]*')/dist
 
   deploy-aws-stable:
     shell: /bin/bash --login
@@ -234,9 +232,9 @@ jobs:
       - run: mkdir -p ~/.config
       - run: cp -r gcloud ~/.config
       - run: echo Deploying version $(grep version package.json |grep -o '[0-9.]*') to $BUCKET_NAME
-      - run: gsutil rsync -d -r dist gs://rise-content/$BUCKET_NAME/$(grep version package.json |grep -o '[0-9.]*')/dist
-      - run: gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" gs://rise-content/$BUCKET_NAME/$(grep version package.json |grep -o '[0-9.]*')/dist
-      - run: gsutil acl -r ch -u AllUsers:R gs://rise-content/$BUCKET_NAME/$(grep version package.json |grep -o '[0-9.]*')/dist
+      - run: gsutil rsync -d -r dist gs://widgets.risevision.com/$BUCKET_NAME/$(grep version package.json |grep -o '[0-9.]*')/dist
+      - run: gsutil -m setmeta -r -h "Cache-Control:private, max-age=0" gs://widgets.risevision.com/$BUCKET_NAME/$(grep version package.json |grep -o '[0-9.]*')/dist
+      - run: gsutil acl -r ch -u AllUsers:R gs://widgets.risevision.com/$BUCKET_NAME/$(grep version package.json |grep -o '[0-9.]*')/dist
       - run: ./upload-dist.sh
 
   test-memory:
