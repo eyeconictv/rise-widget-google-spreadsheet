@@ -13,6 +13,16 @@
 <body>
 
   <div id="mainContainer"></div>
+  
+  <script>
+    if (document.domain.indexOf("localhost") === -1) {
+      try {
+        document.domain = "risevision.com";
+      } catch (err) {
+        // can't set document.domain, risevision.com not an accepted suffix of current document domain
+      }
+    }
+  </script>
 
   <rise-google-sheet id="rise-google-sheet" usage="widget"></rise-google-sheet>
 
