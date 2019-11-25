@@ -175,7 +175,7 @@
         element( by.css( "input[type='checkbox'][name='hasHeader']" ) ).click();
 
         setTimeout( function() {
-          expect( element( by.css( "#header-font .font-setting" ) ).isPresent() ).to.eventually.be.true;
+          expect( element( by.css( "#header-font" ) ).isPresent() ).to.eventually.be.true;
 
           done();
         }, 100 );
