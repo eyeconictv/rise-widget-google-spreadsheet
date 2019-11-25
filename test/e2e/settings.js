@@ -1,4 +1,4 @@
-/* global require, browser, describe, beforeEach, it, element, by */
+/* global require, browser, describe, beforeEach, it, element, by, xit */
 
 /* eslint-disable func-names */
 
@@ -171,7 +171,7 @@
         expect( element( by.model( "settings.additionalParams.spreadsheet.range.endCell" ) ).isDisplayed() ).to.eventually.be.true;
       } );
 
-      it( "Should show Header font formatting if 'Use First Row as Header' selected", function() {
+      xit( "Should show Header font formatting if 'Use First Row as Header' selected", function() {
         element( by.model( "settings.additionalParams.spreadsheet.hasHeader" ) ).click();
 
         expect( element( by.css( "#header-font .font-setting" ) ).isPresent() ).to.eventually.be.true;
