@@ -171,7 +171,7 @@
         expect( element( by.model( "settings.additionalParams.spreadsheet.range.endCell" ) ).isDisplayed() ).to.eventually.be.true;
       } );
 
-      it( "Should show Header font formatting if 'Use First Row as Header' selected", function(done) {
+      it( "Should show Header font formatting if 'Use First Row as Header' selected", function( done ) {
         element( by.css( "input[type='checkbox'][name='hasHeader']" ) ).click();
 
         setTimeout( function() {
