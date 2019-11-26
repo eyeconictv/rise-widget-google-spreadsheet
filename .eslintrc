@@ -19,6 +19,8 @@
     "react"
   ],
   "rules": {
+    "func-names": "off",
+    "indent": "off",
     "quotes": [
       "error",
       "double"

@@ -37,6 +37,7 @@
     "common-header": "https://github.com/Rise-Vision/common-header.git#2.5.11",
     "google-drive-picker": "https://github.com/Rise-Vision/component-google-drive-picker.git#0.1.2",
     "gsap": "~1.18.5",
+    "jquery": "~3.3.1",
     "rise-google-sheet": "https://github.com/Rise-Vision/rise-google-sheet.git#2.4.12",
     "rv-common-style": "https://github.com/Rise-Vision/common-style.git#v1.3.65",
     "webcomponentsjs": "v1.1.0",
@@ -50,8 +51,7 @@
     "angular-mocks": "~1.4.x",
     "angular-sanitize": "~1.5.0",
     "angular-ui-router": "^0.2.18",
-    "gsap": "~1.18.5",
-    "jquery": "~2.1.1",
+    "jquery": "~3.3.1",
     "lodash": "~4.17.4",
     "rv-common-style": "v1.3.65",
     "webcomponentsjs": "v1.1.0"
