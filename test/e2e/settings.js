@@ -174,11 +174,7 @@
       it( "Should show Header font formatting if 'Use First Row as Header' selected", function( done ) {
         element( by.css( "input[type='checkbox'][name='hasHeader']" ) ).click();
 
-        setTimeout( function() {
-          expect( element( by.css( "#header-font" ) ).isPresent() ).to.eventually.be.true;
-
-          done();
-        }, 100 );
+        expect( element( by.css( "#header-font" ) ).isPresent() ).to.eventually.be.true;
       } );
 
       it( "Should not display color selection for Separator", function() {
