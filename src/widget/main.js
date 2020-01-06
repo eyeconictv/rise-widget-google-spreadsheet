@@ -12,5 +12,9 @@ const React = require( "react" ),
     return false;
   };
 
-  ReactDOM.render( <Main />, document.getElementById( "mainContainer" ) );
+  window.addEventListener( "WebComponentsReady", function() {
+    // At this point we are guaranteed that all required polyfills have loaded,
+    // all HTML imports have loaded, and all defined custom elements have upgraded
+    ReactDOM.render( <Main />, document.getElementById( "mainContainer" ) );
+  } );
 } )( window, document );

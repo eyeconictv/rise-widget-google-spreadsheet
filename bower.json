@@ -40,7 +40,7 @@
     "jquery": "~3.3.1",
     "rise-google-sheet": "https://github.com/Rise-Vision/rise-google-sheet.git#2.4.12",
     "rv-common-style": "https://github.com/Rise-Vision/common-style.git#v1.3.65",
-    "webcomponentsjs": "v1.1.0",
+    "webcomponentsjs": "https://github.com/webcomponents/webcomponentsjs.git#v0",
     "widget-common": "https://github.com/Rise-Vision/widget-common.git#3.4.10",
     "widget-settings-ui-core": "https://github.com/Rise-Vision/widget-settings-ui-core.git#0.4.3",
     "widget-settings-ui-components": "https://github.com/Rise-Vision/widget-settings-ui-components.git#3.3.0",
@@ -54,6 +54,6 @@
     "jquery": "~3.3.1",
     "lodash": "~4.17.4",
     "rv-common-style": "v1.3.65",
-    "webcomponentsjs": "v1.1.0"
+    "webcomponentsjs": "v0"
   }
 }
