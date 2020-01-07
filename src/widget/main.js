@@ -27,4 +27,9 @@ const React = require( "react" ),
     console.log( "web components ready!" ); // eslint-disable-line no-console
     start();
   } );
+
+  setTimeout( function() {
+    console.log( "delayed start attempt" ); // eslint-disable-line no-console
+    start();
+  }, 2000 );
 } )( window, document );
