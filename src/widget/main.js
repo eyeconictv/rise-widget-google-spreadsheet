@@ -31,5 +31,5 @@ const React = require( "react" ),
   setTimeout( function() {
     console.log( "delayed start attempt" ); // eslint-disable-line no-console
     start();
-  }, 2000 );
+  }, 5000 );
 } )( window, document );
