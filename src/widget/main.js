@@ -12,9 +12,5 @@ const React = require( "react" ),
     return false;
   };
 
-  window.addEventListener( "WebComponentsReady", function() {
-    console.log( "web components ready!" ); // eslint-disable-line no-console
-    ReactDOM.render( <Main />, document.getElementById( "mainContainer" ) );
-  } );
-
+  ReactDOM.render( <Main />, document.getElementById( "mainContainer" ) );
 } )( window, document );

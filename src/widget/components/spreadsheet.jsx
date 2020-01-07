@@ -33,8 +33,10 @@ const prefs = new gadgets.Prefs(),
       };
     },
 
-    componentDidMount: function() {
+    start: function() {
       var id = new gadgets.Prefs().getString( "id" );
+
+      console.log( "start", id ); // eslint-disable-line no-console
 
       if ( id && id !== "" ) {
         gadgets.rpc.register( "rscmd_play_" + id, this.play );
@@ -43,6 +45,10 @@ const prefs = new gadgets.Prefs(),
         gadgets.rpc.register( "rsparam_set_" + id, this.configure );
         gadgets.rpc.call( "", "rsparam_get", null, id, [ "companyId", "displayId", "additionalParams" ] );
       }
+    },
+
+    componentDidMount: function() {
+      window.addEventListener( "WebComponentsReady", this.start );
     },
 
     componentWillUnmount: function() {
