@@ -13,6 +13,7 @@ const React = require( "react" ),
   };
 
   window.addEventListener( "WebComponentsReady", function() {
+    console.log( "web components ready!" ); // eslint-disable-line no-console
     ReactDOM.render( <Main />, document.getElementById( "mainContainer" ) );
   } );
 
