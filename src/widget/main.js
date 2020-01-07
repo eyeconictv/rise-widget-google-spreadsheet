@@ -27,9 +27,4 @@ const React = require( "react" ),
     console.log( "web components ready!" ); // eslint-disable-line no-console
     start();
   } );
-
-  // in case WebComponentsReady event sent before widget could load
-  setTimeout( function() {
-    start();
-  }, 2000 );
 } )( window, document );
