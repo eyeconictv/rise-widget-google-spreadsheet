@@ -7,14 +7,29 @@ const React = require( "react" ),
 ( function( window, document ) {
   "use strict";
 
+  var started = false;
+
   // Disable context menu (right click menu)
   window.oncontextmenu = function() {
     return false;
   };
 
+  function start() {
+    if ( !started ) {
+      started = true;
+      ReactDOM.render( <Main />, document.getElementById( "mainContainer" ) );
+    }
+  }
+
   window.addEventListener( "WebComponentsReady", function() {
     // At this point we are guaranteed that all required polyfills have loaded,
     // all HTML imports have loaded, and all defined custom elements have upgraded
-    ReactDOM.render( <Main />, document.getElementById( "mainContainer" ) );
+    console.log( "web components ready!" ); // eslint-disable-line no-console
+    start();
   } );
+
+  // in case WebComponentsReady event sent before widget could load
+  setTimeout( function() {
+    start();
+  }, 2000 );
 } )( window, document );
