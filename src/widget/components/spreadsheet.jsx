@@ -33,10 +33,8 @@ const prefs = new gadgets.Prefs(),
       };
     },
 
-    start: function() {
+    componentDidMount: function() {
       var id = new gadgets.Prefs().getString( "id" );
-
-      console.log( "start", id ); // eslint-disable-line no-console
 
       if ( id && id !== "" ) {
         gadgets.rpc.register( "rscmd_play_" + id, this.play );
@@ -45,10 +43,6 @@ const prefs = new gadgets.Prefs(),
         gadgets.rpc.register( "rsparam_set_" + id, this.configure );
         gadgets.rpc.call( "", "rsparam_get", null, id, [ "companyId", "displayId", "additionalParams" ] );
       }
-    },
-
-    componentDidMount: function() {
-      window.addEventListener( "WebComponentsReady", this.start );
     },
 
     componentWillUnmount: function() {
@@ -186,6 +180,17 @@ const prefs = new gadgets.Prefs(),
     },
 
     initRiseGoogleSheet: function() {
+      var self = this;
+
+      if ( !sheet.go ) {
+        setTimeout( function() {
+          self.initRiseGoogleSheet();
+        }, 100 );
+
+        console.log( "rise-google-sheet component still not initialized; retrying" ); // eslint-disable-line no-console
+        return;
+      }
+
       sheet.addEventListener( "rise-google-sheet-response", this.onGoogleSheetResponse );
       sheet.addEventListener( "rise-google-sheet-error", this.onGoogleSheetError );
       sheet.addEventListener( "rise-google-sheet-quota", this.onGoogleSheetQuota );
