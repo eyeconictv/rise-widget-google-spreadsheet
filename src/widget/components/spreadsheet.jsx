@@ -180,6 +180,17 @@ const prefs = new gadgets.Prefs(),
     },
 
     initRiseGoogleSheet: function() {
+      var self = this;
+
+      if ( !sheet.go ) {
+        setTimeout( function() {
+          self.initRiseGoogleSheet();
+        }, 100 );
+
+        console.log( "rise-google-sheet component still not initialized; retrying" ); // eslint-disable-line no-console
+        return;
+      }
+
       sheet.addEventListener( "rise-google-sheet-response", this.onGoogleSheetResponse );
       sheet.addEventListener( "rise-google-sheet-error", this.onGoogleSheetError );
       sheet.addEventListener( "rise-google-sheet-quota", this.onGoogleSheetQuota );
