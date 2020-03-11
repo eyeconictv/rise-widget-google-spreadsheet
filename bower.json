@@ -53,6 +53,7 @@
     "angular-ui-router": "^0.2.18",
     "jquery": "~3.3.1",
     "lodash": "~4.17.4",
+    "rise-data": "66bbc0d",
     "rise-google-sheet": "4d99e04",
     "rv-common-style": "v1.3.65",
     "webcomponentsjs": "v0.7.24"
