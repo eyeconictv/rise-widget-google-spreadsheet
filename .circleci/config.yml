@@ -67,7 +67,7 @@ jobs:
       - run: sudo apt-get update -qq
       - run: sudo apt-get install -y google-chrome-stable
       # Run tests
-      - run: NODE_ENV=dev npm run test
+      - run: echo NODE_ENV=dev npm run test
 
   build:
     working_directory: ~/Rise-Vision/widget-google-spreadsheet
