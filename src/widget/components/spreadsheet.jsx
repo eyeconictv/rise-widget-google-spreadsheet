@@ -1,4 +1,5 @@
 /* global gadgets */
+/* eslint-disable no-console */
 
 var params = null;
 
@@ -8,12 +9,14 @@ require( "../css/fixed-data-table-overrides.css" );
 import React from "react";
 import Scroll from "./scroll";
 import TableHeaderContainer from "../containers/TableHeaderContainer";
+import RiseCache from "../../components/widget-common/dist/rise-cache";
 import Logger from "../../components/widget-common/dist/logger";
 import Common from "../../components/widget-common/dist/common";
+import RiseData from "../../components/widget-common/dist/rise-data";
+import RiseGoogleSheet from "../../components/widget-common/dist/rise-google-sheet";
 import config from "../../config/config";
 
 const prefs = new gadgets.Prefs(),
-  sheet = document.querySelector( "rise-google-sheet" ),
   Spreadsheet = React.createClass( {
     headerClass: "header_font-style",
     bodyClass: "body_font-style",
@@ -43,11 +46,6 @@ const prefs = new gadgets.Prefs(),
         gadgets.rpc.register( "rsparam_set_" + id, this.configure );
         gadgets.rpc.call( "", "rsparam_get", null, id, [ "companyId", "displayId", "additionalParams" ] );
       }
-    },
-
-    componentWillUnmount: function() {
-      sheet.removeEventListener( "rise-google-sheet-response", this.onGoogleSheetResponse );
-      sheet.removeEventListener( "rise-google-sheet-error", this.onGoogleSheetError );
     },
 
     configure: function( names, values ) {
@@ -180,49 +178,49 @@ const prefs = new gadgets.Prefs(),
     },
 
     initRiseGoogleSheet: function() {
-      var self = this;
+      const riseData = new RiseData( { endpoint: "spreadsheets", storageType: "local" }, RiseCache );
 
-      if ( !sheet.go ) {
-        setTimeout( function() {
-          self.initRiseGoogleSheet();
-        }, 100 );
-
-        console.log( "rise-google-sheet component still not initialized; retrying" ); // eslint-disable-line no-console
-        return;
-      }
-
-      sheet.addEventListener( "rise-google-sheet-response", this.onGoogleSheetResponse );
-      sheet.addEventListener( "rise-google-sheet-error", this.onGoogleSheetError );
-      sheet.addEventListener( "rise-google-sheet-quota", this.onGoogleSheetQuota );
-
-      sheet.setAttribute( "key", params.spreadsheet.fileId );
-      sheet.setAttribute( "sheet", params.spreadsheet.sheetName );
-      sheet.setAttribute( "refresh", params.spreadsheet.refresh );
+      let sheet,
+        sheetParams = {
+        key: params.spreadsheet.fileId,
+        sheet: params.spreadsheet.sheetName,
+        refresh: params.spreadsheet.refresh,
+        range: "",
+        apikey: this.API_KEY_DEFAULT
+      };
 
       if ( params.spreadsheet.cells === "range" ) {
         if ( params.spreadsheet.range.startCell && params.spreadsheet.range.endCell ) {
-          sheet.setAttribute( "range", params.spreadsheet.range.startCell + ":" +
-            params.spreadsheet.range.endCell );
+          sheetParams.range = `${params.spreadsheet.range.startCell}:${params.spreadsheet.range.endCell}`;
         }
       }
 
-      // set the API key to the default first
-      sheet.setAttribute( "apikey", this.API_KEY_DEFAULT );
-
       if ( params.spreadsheet.apiKey ) {
-        sheet.setAttribute( "apikey", params.spreadsheet.apiKey );
+        sheetParams.apikey = params.spreadsheet.apiKey;
       } else if ( params.spreadsheet.refresh < 60 ) {
-        sheet.setAttribute( "refresh", 60 );
+        sheetParams.refresh = 60;
       }
 
+      sheet = new RiseGoogleSheet( sheetParams, riseData, this.handleGoogleSheet );
       sheet.go();
     },
 
-    onGoogleSheetResponse: function( e ) {
+    handleGoogleSheet: function( type, detail ) {
+      switch ( type ) {
+        case "response":
+          this.processGoogleSheetResponse( detail );
+          break;
+        case "error":
+          this.processGoogleSheetError( detail );
+          break;
+      }
+    },
+
+    processGoogleSheetResponse: function( detail ) {
       this.props.hideMessage();
 
-      if ( e.detail && e.detail.results ) {
-        this.setState( { data: e.detail.results } );
+      if ( detail && detail.results ) {
+        this.setState( { data: detail.results } );
       }
 
       if ( this.isLoading ) {
@@ -235,35 +233,37 @@ const prefs = new gadgets.Prefs(),
       }
     },
 
-    onGoogleSheetError: function( e ) {
+    processGoogleSheetError: function( detail ) {
+      console.log( "processGoogleSheetError", detail );
 
-      // Show a different message if there is a 403 or 404
-      var statusCode = 0,
+      let statusCode = 0,
         errorMessage = "The request failed with status code: 0",
         message = "There was an error accessing your spreadsheet data. Please ensure a valid range and Worksheet has been selected.",
         event_details = "spreadsheet not reachable";
 
-      if ( e.detail.error && e.detail.error.message ) {
-        errorMessage = e.detail.error.message;
-        statusCode = +e.detail.error.message.substring( errorMessage.indexOf( ":" ) + 2 );
+      if ( detail.status && detail.statusText ) {
+        errorMessage = `${detail.status}: ${detail.statusText}`;
+        statusCode = detail.status;
       }
 
-      if ( statusCode == "403" ) {
-        message = "To use this Google Spreadsheet it must be publicly accessible. To do this, open the Google Spreadsheet and select File > Share > Advanced, then select On - Anyone with the link."
+      if ( statusCode === 429 ) {
+        return this.processGoogleSheetQuota( detail );
+      }
+
+      if ( statusCode === 403 ) {
+        message = "To use this Google Spreadsheet it must be publicly accessible. To do this, open the Google Spreadsheet and select File > Share > Advanced, then select On - Anyone with the link.";
         event_details = "spreadsheet not public";
-      } else if ( statusCode == "404" ) {
-        message = "Spreadsheet does not exist."
+      } else if ( statusCode === 404 ) {
+        message = "Spreadsheet does not exist.";
         event_details = "spreadsheet not found";
       }
 
       // check if there is cached data
-      if ( e.detail.results ) {
+      if ( detail.results ) {
         // cached data provided, process as normal response
-        this.onGoogleSheetResponse( e );
+        this.processGoogleSheetResponse( detail );
       } else {
-
         this.showError( message );
-
         this.setState( { data: null } );
       }
 
@@ -286,12 +286,11 @@ const prefs = new gadgets.Prefs(),
         "event_details": event_details,
         "error_details": errorMessage,
         "url": params.spreadsheet.url,
-        "request_url": ( e.detail.request ) ? e.detail.request.url : "",
         "api_key": ( params.spreadsheet.apiKey ) ? params.spreadsheet.apiKey : this.API_KEY_DEFAULT
       } );
     },
 
-    onGoogleSheetQuota: function( e ) {
+    processGoogleSheetQuota: function( detail ) {
       // log the event
       this.logEvent( {
         "event": "error",
@@ -300,9 +299,9 @@ const prefs = new gadgets.Prefs(),
         "api_key": ( params.spreadsheet.apiKey ) ? params.spreadsheet.apiKey : this.API_KEY_DEFAULT
       } );
 
-      if ( e.detail && e.detail.results ) {
+      if ( detail && detail.results ) {
         // cached data provided, process as normal response
-        this.onGoogleSheetResponse( e );
+        this.processGoogleSheetResponse( detail );
       } else {
         this.showError( "The API Key used to retrieve data from the Spreadsheet has exceeded the daily quota. Please use a different API Key." );
 
@@ -313,7 +312,6 @@ const prefs = new gadgets.Prefs(),
           this.ready();
         }
       }
-
     },
 
     loadFonts: function() {
