@@ -115,25 +115,6 @@
       .pipe( gulp.dest( "dist/js/vendor" ) );
   } );
 
-  gulp.task( "components", () => {
-    return gulp.src( [
-      "src/components/webcomponentsjs/webcomponents*.js",
-      "src/components/rise-google-sheet/rise-google-sheet.html",
-      "src/components/rise-logger/rise-logger.html",
-      "src/components/rise-logger/rise-logger-utils.html",
-      "src/components/rise-data/rise-data.html",
-      "src/components/polymer/*.*{html,js}",
-      "src/components/promise-polyfill/promise-polyfill-lite.html",
-      "src/components/promise-polyfill/Promise.js",
-      "src/components/iron-ajax/iron-ajax.html",
-      "src/components/iron-ajax/iron-request.html",
-      "src/components/webfontloader/webfontloader.js",
-      "src/components/moment/moment.js",
-      "src/components/underscore/underscore*.js"
-    ], { base: "./src/" } )
-      .pipe( gulp.dest( "dist/" ) );
-  } );
-
   gulp.task( "webdriver_update", factory.webdriveUpdate() );
 
   // ***** e2e Testing ***** //
@@ -218,11 +199,11 @@
   } );
 
   gulp.task( "build-dev", ( cb ) => {
-    runSequence( [ "clean", "config" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor", "components" ], [ "unminify" ], cb );
+    runSequence( [ "clean", "config" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor" ], [ "unminify" ], cb );
   } );
 
   gulp.task( "build", ( cb ) => {
-    runSequence( [ "clean", "config", "bower-update" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor", "components" ], [ "unminify" ], cb );
+    runSequence( [ "clean", "config", "bower-update" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor" ], [ "unminify" ], cb );
   } );
 
   gulp.task( "bump", () => {
