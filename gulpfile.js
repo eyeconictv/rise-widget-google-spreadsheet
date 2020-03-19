@@ -213,7 +213,7 @@
   } );
 
   gulp.task( "test", ( cb ) => {
-    runSequence( "config", "test:unit", "test:e2e", "test:integration", cb );
+    runSequence( "config", "test:unit", "test:e2e", cb );
   } );
 
   gulp.task( "default", [], () => {
