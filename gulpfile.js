@@ -115,6 +115,13 @@
       .pipe( gulp.dest( "dist/js/vendor" ) );
   } );
 
+  gulp.task( "components", () => {
+    return gulp.src( [
+      "src/components/webfontloader/webfontloader.js",
+    ], { base: "./src/" } )
+      .pipe( gulp.dest( "dist/" ) );
+  } );
+
   gulp.task( "webdriver_update", factory.webdriveUpdate() );
 
   // ***** e2e Testing ***** //
@@ -199,11 +206,11 @@
   } );
 
   gulp.task( "build-dev", ( cb ) => {
-    runSequence( [ "clean", "config" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor" ], [ "unminify" ], cb );
+    runSequence( [ "clean", "config" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor", "components" ], [ "unminify" ], cb );
   } );
 
   gulp.task( "build", ( cb ) => {
-    runSequence( [ "clean", "config", "bower-update" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor" ], [ "unminify" ], cb );
+    runSequence( [ "clean", "config", "bower-update" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor", "components" ], [ "unminify" ], cb );
   } );
 
   gulp.task( "bump", () => {
