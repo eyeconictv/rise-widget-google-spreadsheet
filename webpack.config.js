@@ -31,6 +31,9 @@ module.exports = {
   entry: [
     "./src/components/widget-common/dist/common.js",
     "./src/components/widget-common/dist/logger.js",
+    "./src/components/widget-common/dist/rise-cache.js",
+    "./src/components/widget-common/dist/rise-data.js",
+    "./src/components/widget-common/dist/rise-google-sheet.js",
     "./src/components/auto-scroll/dist/jquery.auto-scroll.js",
     "./src/components/gsap/src/uncompressed/utils/Draggable.js",
     "./src/components/gsap/src/uncompressed/TweenLite.js",
@@ -78,6 +81,26 @@ module.exports = {
       {
         test: require.resolve(__dirname + "/src/components/widget-common/dist/common"),
         loader: "exports?RiseVision.Common.Utilities"
+      },
+      {
+        test: require.resolve(__dirname + "/src/components/widget-common/dist/rise-cache"),
+        loader: "exports?RiseVision.Common.RiseCache"
+      },
+      {
+        test: require.resolve(__dirname + "/src/components/widget-common/dist/rise-data"),
+        loader: "imports?jQuery=jquery,$=jquery,this=>window"
+      },
+      {
+        test: require.resolve(__dirname + "/src/components/widget-common/dist/rise-data"),
+        loader: "exports?RiseVision.Common.RiseData"
+      },
+      {
+        test: require.resolve(__dirname + "/src/components/widget-common/dist/rise-google-sheet"),
+        loader: "imports?jQuery=jquery,$=jquery,this=>window"
+      },
+      {
+        test: require.resolve(__dirname + "/src/components/widget-common/dist/rise-google-sheet"),
+        loader: "exports?RiseVision.Common.RiseGoogleSheet"
       },
       {
         test: require.resolve(__dirname + "/src/components/auto-scroll/dist/jquery.auto-scroll"),
