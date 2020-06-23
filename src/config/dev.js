@@ -1,12 +1,12 @@
 /* exported config */
 
 var config = {
-  apiKey: "AIzaSyAdX5yRzScPWbRm0FnNcoYxbiLeQo8owwc"
+  apiKey: "AIzaSyDtPkXDK34LF0p2AS60F0BKlzKMvlTMcCg"
 };
 
 if (typeof angular !== "undefined") {
   angular.module("risevision.widget.googleSpreadsheet.config", [])
-    .value("API_KEY", "AIzaSyAdX5yRzScPWbRm0FnNcoYxbiLeQo8owwc");
+    .value("API_KEY", "AIzaSyDtPkXDK34LF0p2AS60F0BKlzKMvlTMcCg");
 
   angular.module("risevision.common.i18n.config", [])
     .constant("LOCALES_PREFIX", "components/common-header/dist/locales/translation_")
