@@ -78,7 +78,7 @@
   } );
 
   gulp.task( "widget", () => {
-    return gulp.src( "src/widget/main.js" )
+    return gulp.src( "src/widget/main.jsx" )
       .pipe( webpackStream( require( "./webpack.config.js" ) ) )
       .pipe( gulp.dest( "dist/" ) );
   } );
@@ -113,6 +113,11 @@
   gulp.task( "vendor", () => {
     return gulp.src( vendorFiles, { base: "./src/components" } )
       .pipe( gulp.dest( "dist/js/vendor" ) );
+  } );
+
+  gulp.task( "copy", () => {
+    return gulp.src("./copy/**")
+      .pipe( gulp.dest( "dist/" ) );
   } );
 
   gulp.task( "components", () => {
@@ -210,7 +215,7 @@
   } );
 
   gulp.task( "build", ( cb ) => {
-    runSequence( [ "clean", "config", "bower-update" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor", "components" ], [ "unminify" ], cb );
+    runSequence( [ "clean", "config", "bower-update" ], [ "settings", "widget", "fonts", "images", "i18n", "vendor", "components", "copy" ], [ "unminify" ], cb );
   } );
 
   gulp.task( "bump", () => {

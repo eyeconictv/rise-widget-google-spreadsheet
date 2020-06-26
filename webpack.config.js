@@ -1,3 +1,4 @@
+var path = require("path");
 var webpack = require("webpack"),
   HTMLWebPackPlugin = require("html-webpack-plugin"),
   ExtractTextPlugin = require("extract-text-webpack-plugin"),
@@ -40,7 +41,7 @@ module.exports = {
     "./src/components/gsap/src/uncompressed/plugins/CSSPlugin.js",
     "./src/components/gsap/src/uncompressed/plugins/ScrollToPlugin.js",
     "./src/config/config.js",
-    "./src/widget/main.js",
+    "./src/widget/main.jsx",
     "./src/widget/analytics.js"
   ],
   devtool: "source-map",
@@ -55,7 +56,8 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        include: [/src\/widget/, /test\/unit\/widget/],
+        include: [path.resolve("src/widget"), path.resolve("test/unit/widget")],
+        
         loader: "babel-loader"
       },
       {
