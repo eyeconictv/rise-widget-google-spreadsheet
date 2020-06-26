@@ -22,7 +22,7 @@
   </style>
 
   <!-- FullStory -->
-  <script>window['_fs_is_outer_script'] = true; window['_fs_debug'] = false; window['_fs_host'] = 'www.fullstory.com'; window['_fs_org'] = 'U3O'; (function(m,n,e,t,l,o,g,y){ g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[]; o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js'; y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y); g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){FS(l,v)}; g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;FS(o,v)}; g.clearUserCookie=function(d,i){d=n.domain;while(1){n.cookie='fs_uid=;domain='+d+ ';path=/;expires='+new Date(0);i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}} })(window,document,'FS','script','user');</script>
+  <!-- <script>window['_fs_is_outer_script'] = true; window['_fs_debug'] = false; window['_fs_host'] = 'www.fullstory.com'; window['_fs_org'] = 'U3O'; (function(m,n,e,t,l,o,g,y){ g=m[e]=function(a,b){g.q?g.q.push([a,b]):g._api(a,b);};g.q=[]; o=n.createElement(t);o.async=1;o.src='https://'+_fs_host+'/s/fs.js'; y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y); g.identify=function(i,v){g(l,{uid:i});if(v)g(l,v)};g.setUserVars=function(v){FS(l,v)}; g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;FS(o,v)}; g.clearUserCookie=function(d,i){d=n.domain;while(1){n.cookie='fs_uid=;domain='+d+ ';path=/;expires='+new Date(0);i=d.indexOf('.');if(i<0)break;d=d.slice(i+1)}} })(window,document,'FS','script','user');</script> -->
 
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.14/angular.min.js"></script>
   <!-- if AngularJS fails to load fallback to a local version -->
@@ -90,7 +90,7 @@
 
                 <span class="input-group-addon">
                   <button name="previewBtn" class="btn btn-default" ng-click="previewFile()">{{"widget-google-spreadsheet.spreadsheet.preview" | translate }}
-                    <img src="https://s3.amazonaws.com/Rise-Images/Icons/newtab-icon.png"
+                    <img src="images/newtab-icon.png"
                       class="storage-selector-icon icon-right">
                   </button>
                 </span>
@@ -396,7 +396,7 @@
 <!-- endbuild -->
 
 <!-- Get from Bower if needed. -->
-<script src="//s3.amazonaws.com/rise-common/scripts/i18next/i18next.min.js"></script>
+<script src="scripts/i18next/i18next.min.js"></script>
 
 <!-- build:e2eSpreadsheetHTTP -->
 <!-- endbuild -->
