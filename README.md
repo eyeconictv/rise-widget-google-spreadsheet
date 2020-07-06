@@ -9,6 +9,7 @@ Google Spreadsheet Widget works in conjunction with [Rise Vision](http://www.ris
 At this time Chrome is the only browser that this project and Rise Vision supports.
 
 ## Built With
+- Nodejs 6.17.1
 - [AngularJS](https://angularjs.org/)
 - [npm](https://www.npmjs.org)
 - [Bower](http://bower.io/)
